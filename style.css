@@ -9,6 +9,9 @@
     height: 40px;
     width: 40px;
 }
+.checked {
+    background-color: white;
+}
 .bomb {
     background-color: red;
 }
