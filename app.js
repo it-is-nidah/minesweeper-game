@@ -22,16 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
             grid.appendChild(square); //places each square on the grid
             squares.push(square);
 
-            //add normal click event listener
-            square.addEventListener('click', function(e) {
-                click(square);
-            });
-            //ctrl and left click
-            square.oncontextmenu = function(e) {
-                e.preventDefault();
-                addFlag(square);
-            };
         }
+        //add normal click event listener
+        square.addEventListener('click', function(e) {
+            click(square);
+        });
+        //ctrl and left click
+        square.oncontextmenu = function(e) {
+            e.preventDefault();
+            addFlag(square);
+        };
 
     //ADD NUMBERS
     for(let i = 0; i < squares.length; i++) {
@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 square.classList.add('flag');
                 square.innerHTML = '🚩';
                 flags++;
+                checkForWin();
             } else {
                 square.classList.remove('flag');
                 square.innerHTML = '';
@@ -143,15 +144,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     //game over function
     function gameOver (square) {
+        // document.getElementById("result").innerHTML = result;
         result.innerHTML = 'Sorry...Game over!';
         isGameOver = true;
 
         //show all bombs when game is over
         squares.forEach(square => {
-            if (squares.classList.contains('bomb')) {
+            if (square.classList.contains('bomb')) {
                 square.innerHTML = '💣';
             }
         });
+    }
+    //check for win fn
+    function checkForWin() {
+        let matches = 0;
+        for (let i = 0; i < squares.length; i++) {
+            if (squares[i].classList.contains('bomb') && squares[i].classList.contains('flag')) {
+                matches++;
+            }
+            if (matches === bombAmount) {
+                console.log('you win');
+                isGameOver = true;
+            }
+            
+        }
     }
 
 });
